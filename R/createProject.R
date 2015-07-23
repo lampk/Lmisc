@@ -7,13 +7,15 @@
 createProject <- function(dir, structure = "default"){
   ## to create project directory
   ## initial version: 23 July 2015
-  dir.create(dir, recursive = TRUE)
-  # template
-    template <- switch(structure,
-                       default = file.path(system.file(package = "Lmisc"), "structure", "default"))
 
-  # copy folder structure
-  file.copy(from = dir(template, full.names = TRUE), to = dir, recursive = TRUE)
+  ## read project template
+  template <- switch(structure,
+                     default = file.path(system.file(package = "Lmisc"), "structure", "default.txt"))
+  .str <- readLines(template)
+
+  ## create folder structure
+  sapply(.str, FUN= function(x){dir.create(path = file.path(dir, x), recursive = TRUE)})
+
   # inform
   cat(paste("Project", basename(dir), "was created in", dirname(dir), "\n", sep = " "))
 }
