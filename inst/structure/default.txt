@@ -1,0 +1,5 @@
+Analysis/Output
+Analysis/Rfunctions
+Data/Raw
+Data/VAD
+Documents
