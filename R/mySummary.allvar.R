@@ -2,7 +2,6 @@ mySummary.allvar <- function(formula, data, pooledGroup = FALSE, contSummary = "
                              caption = NULL, kable = FALSE, test = FALSE, continuous = NA,
                              digits = 1){
   # contSummary can be median (90% range) "med.90" or median (IQR) "med.IQR" or median (range) "med.range" or "mean.sd"
-  require(Hmisc)
 
   if (pooledGroup&test){
     warning("Display of both pooled groups and test currently not implemented. Tests not displayed.")
@@ -21,7 +20,7 @@ mySummary.allvar <- function(formula, data, pooledGroup = FALSE, contSummary = "
     if (is.logical(dat[,1])) gr.lev <- as.character(unique(dat[,1])) else gr.lev <- levels(dat[,1])
     if (pooledGroup) {
       # mylabels <- unlist(lapply(blvars, Hmisc::label))
-      mylabels <- apply(blvars, 2, Hmisc::label)
+      mylabels <- getlabel(blvars)
       blvars <- rbind(blvars,blvars)
       for (i in 1:ncol(blvars)) label(blvars[,i]) <- mylabels[i]
       group <- c(as.character(group),rep("All patients",nrow(data)))
@@ -42,7 +41,7 @@ mySummary.allvar <- function(formula, data, pooledGroup = FALSE, contSummary = "
   if (length(digits) == 1) digits <- rep(digits, ncol(blvars))
 
   for (i in 1:ncol(blvars)){
-    result.i <- mySummary.onevar(varname = ifelse(Hmisc::label(blvars[, i]) != "", label(blvars[, i]), colnames(blvars)[i]),
+    result.i <- mySummary.onevar(varname = ifelse(getlabel(blvars[, i]) != "", getlabel(blvars[, i]), getlabel(blvars)[i]),
                                  blvars[, i], group, contSummary = contSummary, test = test,
                                  continuous = continuous[i], digits = digits[i])
     result <- rbind(result, result.i)
