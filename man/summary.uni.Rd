@@ -8,7 +8,7 @@ To display univariate analysis
 To display univariate analysis
 }
 \usage{
-summary.uni(fit, meta = NULL, exp = FALSE, method = 'LRT', digits = 2, sep = '-', pdigits = 3, p = 0.001, tidy = TRUE)
+summary.uni(fit, adjust = NULL, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

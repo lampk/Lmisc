@@ -8,7 +8,7 @@ To display fitted model
 To display fitted model
 }
 \usage{
-summary.fit(fit, meta = NULL, exp = FALSE, method = 'LRT', digits = 2, sep = '-', pdigits = 3, p = 0.001, tidy = TRUE)
+summary.fit(fit, meta = NULL, exp = FALSE, method = 'LRT', digits = 2, sep = '-', p = 0.001, tidy = TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
