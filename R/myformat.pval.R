@@ -5,10 +5,14 @@ myformat.pval <- function(p, cutoff = 0.0001){
   digits <- nchar(unlist(strsplit(as.character(cutoff + 1), split = "[.]"))[2])
   ## format
   out <- sapply(p, function(x) {
-    if (x >= cutoff) {
-      format.pval(x, digits = 2, scientific = FALSE)
+    if (is.na(x)) {
+      NA
     } else {
-      paste("<", formatC(cutoff, digits, format = "f"), sep = "")
+      if (x >= cutoff) {
+        format.pval(x, digits = 2, scientific = FALSE)
+      } else {
+        paste("<", formatC(cutoff, digits, format = "f"), sep = "")
+      }
     }
   })
   return(out)
