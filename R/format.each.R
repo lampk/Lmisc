@@ -23,8 +23,8 @@ format.each <- function(x, label = NA, type, unit = NA, scale = NA, center = NA,
 
   ## datetime data
   if (type == "datetime"){
-    require(lubridate)
-    tmp <- eval(parse(text = paste(value, "(as.character(x))")))
+    requireNamespace("lubridate")
+    tmp <- eval(parse(text = paste("lubridate::", value, "(as.character(x))", sep = "")))
     structure(tmp, class = c("avector", class(tmp)), label = ifelse(is.na(label), "", label))
   }
 
@@ -32,7 +32,7 @@ format.each <- function(x, label = NA, type, unit = NA, scale = NA, center = NA,
   if (type == "character"){
     x[x == ""] <- NA
     if (is.na(value)){tmp <- as.character(as.vector(x))} else {
-      require(car)
+      requireNamespace("car")
       tmp <- as.character(car::Recode(var = x, recodes = value, as.factor.result = FALSE))
       structure(tmp, class = c("avector", class(tmp)), label = ifelse(is.na(label), "", label))
     }
@@ -40,7 +40,7 @@ format.each <- function(x, label = NA, type, unit = NA, scale = NA, center = NA,
 
   ## factor data
   if (type == "factor"){
-    require(car)
+    requireNamespace("car")
     if (is.na(levels)|levels == ""){
       tmp <- car::Recode(var = x, recodes = value, as.factor.result = TRUE)
     } else {
