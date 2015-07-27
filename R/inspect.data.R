@@ -3,7 +3,7 @@ inspect.data <- function(data, info, id, check_missing, plot = FALSE, prefix = "
 
   # select variables to check
   data <- data[,names(data)[names(data) %in% info$varname]]
-  info <- info[match(info$varname, names(data)),]
+  info <- info[match(names(data), info$varname),]
 
   # check missing
   if (missing(check_missing)) {
