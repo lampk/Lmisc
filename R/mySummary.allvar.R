@@ -19,10 +19,9 @@ mySummary.allvar <- function(formula, data, pooledGroup = FALSE, contSummary = "
     group <- droplevels(factor(dat[,1]))
     if (is.logical(dat[,1])) gr.lev <- as.character(unique(dat[,1])) else gr.lev <- levels(dat[,1])
     if (pooledGroup) {
-      # mylabels <- unlist(lapply(blvars, Hmisc::label))
       mylabels <- getlabel(blvars)
       blvars <- rbind(blvars,blvars)
-      for (i in 1:ncol(blvars)) label(blvars[,i]) <- mylabels[i]
+      for (i in 1:ncol(blvars)) attr(blvars[,i], "label") <- mylabels[i]
       group <- c(as.character(group),rep("All patients",nrow(data)))
       group <- factor(group,levels=c("All patients",gr.lev))
       gr.lev <- levels(group)
