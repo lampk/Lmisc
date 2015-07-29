@@ -17,7 +17,8 @@ summary.uni <- function(fit, adjust = NULL, ...){
   }
   ndf <- attr(model.matrix(formula(fit), data = dat), "assign")[-1]
   df <- sapply(unique(ndf), function(x){sum(ndf == x)})
-  df <- ifelse(df > 1, df + 2, df)
+  dataClass <- attr(terms(fit), "dataClasses")[-1]
+  df <- ifelse(dataClass == "factor", df + 2, df)
 
   # create output
   if (length(fits) == 1) {
