@@ -19,9 +19,13 @@ getlabel.data <- function(data, meta = NULL, units = TRUE, fit = FALSE){
       out <- with(namedat, ifelse(type == 'factor', as.character(.label), as.character(paste(.label, ' [', .units, ']', sep = ''))))
     }
   } else {
-    out <- sapply(data, getlabel.default)
+    if (ncol(data) == 1) {
+      out <- getlabel.default(data)
+    } else {
+      out <- sapply(data, getlabel.default)
+    }
     if (any(out == "")){
-      tmp <- names(data)
+      tmp <- colnames(data)
       out <- ifelse(out == "", tmp, out)
     }
   }

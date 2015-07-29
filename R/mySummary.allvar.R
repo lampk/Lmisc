@@ -14,7 +14,7 @@ mySummary.allvar <- function(formula, data, pooledGroup = FALSE, contSummary = "
     blvars <- dat[,-1]
     if (is.null(ncol(blvars))) {
       dim(blvars) <- c(length(blvars), 1)
-      colnames(blvars) <- as.character(formula[[2]])
+      colnames(blvars) <- as.character(formula[[3]])
     }
     group <- droplevels(factor(dat[,1]))
     if (is.logical(dat[,1])) gr.lev <- as.character(unique(dat[,1])) else gr.lev <- levels(dat[,1])
