@@ -5,7 +5,7 @@ summary.fit <- function(fit, meta = NULL, exp = FALSE, method = 'LRT',
 
   # define fit method
   fit_method <- as.character(fit$call[1])
-  if (!fit_method %in% c("lm", "glm", "rq", "coxph")) stop('This fitting method is not implemented yet !!!')
+  if (!fit_method %in% c("lm", "glm", "glm.nb", "rq", "coxph")) stop('This fitting method is not implemented yet !!!')
 
   # get original formula
   org_formula <- formula(fit)
