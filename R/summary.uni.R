@@ -15,6 +15,7 @@ summary.uni <- function(fit, adjust = NULL, ...){
   } else {
       dat <- eval(parse(text = fit$call['data']), envir = parent.frame())
   }
+  dat <- droplevels(dat)
   ndf <- attr(model.matrix(formula(fit), data = dat), "assign")[-1]
   df <- sapply(unique(ndf), function(x){sum(ndf == x)})
   dataClass <- attr(terms(fit), "dataClasses")[-1]

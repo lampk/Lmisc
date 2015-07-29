@@ -14,6 +14,7 @@ summary.fit <- function(fit, meta = NULL, exp = FALSE, method = 'LRT',
 
   # get original data
   if (fit_method == "glm"){dat <- fit$data} else {dat <- eval(parse(text = fit$call['data']), envir = parent.frame())}
+  dat <- droplevels(dat)
 
 
   # update fit
