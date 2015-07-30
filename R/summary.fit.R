@@ -36,7 +36,7 @@ summary.fit <- function(fit, meta = NULL, exp = FALSE, method = 'LRT',
   ### if use likelihood ratio test
   if (method == 'LRT'){
     # warning if there is interaction
-    if (any(attr(terms(attr(new_formula, 'org_formula')), 'order') > 1)) cat('!!!There is interaction in your model.')
+    if (any(attr(terms(attr(new_formula, 'org_formula')), 'order') > 1)) stop('!!! There is interaction in your model. Use Wald method instead !!!')
     # ci
     ci <- data.frame(confint(fit))
     pval <- as.data.frame(drop1(fit, test = 'Chisq'))[-1,]
@@ -83,7 +83,8 @@ summary.fit <- function(fit, meta = NULL, exp = FALSE, method = 'LRT',
 
   for (i in (1:length(fullvar))){
     for (j in (1:length(fullvar[[i]]))){
-      if (is.factor(dat[, info$var[info$label == fullvar[[i]][j]]])){
+      if (attr(terms(update(fit, as.formula(paste("~", fullvar[[i]][j])))), "dataClasses")[-1] == "factor") {
+        #if (is.factor(dat[, info$var[info$label == fullvar[[i]][j]]])){
         fullname[[i]][j] <- list(paste(fullvar[[i]][j], levels(dat[, info$var[info$label == fullvar[[i]][j]]])[-1], sep = ':'))
       } else {
         fullname[[i]][j] <- fullvar[[i]][j]
@@ -102,23 +103,24 @@ summary.fit <- function(fit, meta = NULL, exp = FALSE, method = 'LRT',
   for (i in (1:nrow(info))){
     id1 <- info$index_sum[i]; id2 <- info$index_sum[i] + info$df[i] - 1
     output.i <- matrix(tmp1[id1 : id2,], ncol = ncol(tmp1), nrow = info$df[i])
+    dataClass <- attr(terms(update(fit, as.formula(paste("~", info$label[i])))), "dataClasses")[-1]
     ## add baseline
-    if (is.factor(dat[, info$var[i]])){
-      if (info$order[i] > 1){
-        output.add <- matrix(rep('', ncol(output.i)), nrow = 1)
-        output.lab <- c(info$label[i], paste('-', unlist(fullname)[id1:id2]))
-      } else {
+    if (length(dataClass) > 1) {
+      output.add <- matrix(rep('', ncol(output.i)), nrow = 1)
+      output.lab <- c(info$label[i], paste('-', unlist(fullname)[id1:id2]))
+    } else {
+      if (dataClass == "factor") {
         output.add <- rbind(rep('', ncol(output.i)), c(ifelse(exp, 1, 0), rep('', ncol(output.i) - 2), NA))
         output.lab <- c(info$label[i], paste('-', levels(dat[, info$var[i]])))
+      } else {
+        output.add <- NULL
+        output.lab <- info$label[i]
       }
-    } else {
-      output.add <- NULL
-      output.lab <- info$label[i]
     }
 
     ## correct p value with LRT method
     if (method == 'LRT'){
-      if (is.factor(dat[, info$var[i]])){
+      if (dataClass == "factor") {
         output.add[1, ncol(output.i)] <- ifelse(info$notdup[i] == 0, NA, pval[info$index_drop[i], "Pr(>Chi)"])
       } else {
         output.i[, ncol(output.i)] <- ifelse(info$notdup[i] == 0, NA, pval[info$index_drop[i], "Pr(>Chi)"])
