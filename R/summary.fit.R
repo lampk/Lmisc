@@ -75,7 +75,7 @@ summary.fit <- function(fit, meta = NULL, exp = FALSE, method = 'LRT',
 
   ## get fullname
   if (is.null(dim(factor_matrix))){
-    fullvar <- fullname <- rownames(attr(new_formula, 'label_info'))
+    fullvar <- fullname <- rownames(attr(terms(attr(new_formula, 'org_formula')), 'factors'))[-1]
   } else {
     fullvar <- fullname <- apply(factor_matrix, 2, function(x){rownames(factor_matrix)[x == 1]})
   }
@@ -84,7 +84,6 @@ summary.fit <- function(fit, meta = NULL, exp = FALSE, method = 'LRT',
   for (i in (1:length(fullvar))){
     for (j in (1:length(fullvar[[i]]))){
       if (attr(terms(update(fit, as.formula(paste("~", fullvar[[i]][j])))), "dataClasses")[-1] == "factor") {
-        #if (is.factor(dat[, info$var[info$label == fullvar[[i]][j]]])){
         fullname[[i]][j] <- list(paste(fullvar[[i]][j], levels(dat[, info$var[info$label == fullvar[[i]][j]]])[-1], sep = ':'))
       } else {
         fullname[[i]][j] <- fullvar[[i]][j]
