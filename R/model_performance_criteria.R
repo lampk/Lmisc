@@ -14,14 +14,14 @@ myaccuracy <- function(predicted, y, criteria = mse, ...){
   return(unlist(output))
 }
 
-#' @describeIn my_accuracy Mean squared errors
+#' @describeIn myaccuracy Mean squared errors
 mse <- function(predicted, y){
   output <- mean((y - predicted)^2)
   names(output) <- "MSE"
   return(output)
 }
 
-#' @describeIn my_accuracy log-likelihood (binary case)
+#' @describeIn myaccuracy log-likelihood (binary case)
 loglik_binary <- function(predicted, y){
   #- replace 0 and 1 predictions (occur e.g. in rpart) by "almost" 0 and 1
   predicted[predicted < .Machine$double.eps]     <- .Machine$double.eps
@@ -33,7 +33,7 @@ loglik_binary <- function(predicted, y){
   return(output)
 }
 
-#' @describeIn my_accuracy Brier score
+#' @describeIn myaccuracy Brier score
 Brier <- function(predicted, y, confint = FALSE){
   #- replace 0 and 1 predictions (occur e.g. in rpart) by "almost" 0 and 1
   predicted[predicted < .Machine$double.eps]     <- .Machine$double.eps
@@ -45,7 +45,7 @@ Brier <- function(predicted, y, confint = FALSE){
   return(output)
 }
 
-#' @describeIn my_accuracy Discrimination slope
+#' @describeIn myaccuracy Discrimination slope
 dis_slope <- function(predicted, y){
   #- replace 0 and 1 predictions (occur e.g. in rpart) by "almost" 0 and 1
   predicted[predicted < .Machine$double.eps]     <- .Machine$double.eps
@@ -57,7 +57,7 @@ dis_slope <- function(predicted, y){
   return(output)
 }
 
-#' @describeIn my_accuracy AUC (with confidence interval)
+#' @describeIn myaccuracy AUC (with confidence interval)
 c_index <- function(predicted, y, confint = FALSE, ci_collapse = "-", ci_parentheses = FALSE){
   #- replace 0 and 1 predictions (occur e.g. in rpart) by "almost" 0 and 1
   predicted[predicted < .Machine$double.eps] <- .Machine$double.eps
@@ -75,7 +75,7 @@ c_index <- function(predicted, y, confint = FALSE, ci_collapse = "-", ci_parenth
   return(output)
 }
 
-#' @describeIn my_accuracy Concordance
+#' @describeIn myaccuracy Concordance
 concordance <- function(x, y){
   # y: Surv object in newdata
   # x: linear predictor in newdata
@@ -85,7 +85,7 @@ concordance <- function(x, y){
   out
 }
 
-#' @describeIn my_accuracy Calibration slope and intercept (with confidence intervals)
+#' @describeIn myaccuracy Calibration slope and intercept (with confidence intervals)
 calib <- function(predicted, y, confint = FALSE){
   #- replace 0 and 1 predictions (occur e.g. in rpart) by "almost" 0 and 1
   predicted[predicted < .Machine$double.eps] <- .Machine$double.eps
@@ -111,7 +111,7 @@ calib <- function(predicted, y, confint = FALSE){
   return(output)
 }
 
-#' @describeIn my_accuracy Other measures of binary test
+#' @describeIn myaccuracy Other measures of binary test
 binperform <- function(predicted, y, cutoff = 0.5){
   #- replace 0 and 1 predictions (occur e.g. in rpart) by "almost" 0 and 1
   predicted[predicted < .Machine$double.eps] <- .Machine$double.eps
@@ -125,32 +125,32 @@ binperform <- function(predicted, y, cutoff = 0.5){
   return(output)
 }
 
-#' @describeIn my_accuracy Sensitivity
+#' @describeIn myaccuracy Sensitivity
 sen <- function(predicted, y, cutoff) {
   sum(predicted[y == 1] > cutoff, na.rm = TRUE)/sum(y == 1 & !is.na(predicted), na.rm = TRUE)
 }
 
-#' @describeIn my_accuracy Specificity
+#' @describeIn myaccuracy Specificity
 spe <- function(predicted, y, cutoff) {
   sum(predicted[y == 0] <= cutoff, na.rm = TRUE)/sum(y == 0 & !is.na(predicted), na.rm = TRUE)
 }
 
-#' @describeIn my_accuracy Positive predictive value
+#' @describeIn myaccuracy Positive predictive value
 ppv <- function(predicted, y, cutoff) {
   sum(y[predicted > cutoff] == 1, na.rm = TRUE)/sum(predicted > cutoff, na.rm = TRUE)
 }
 
-#' @describeIn my_accuracy Negative predictive value
+#' @describeIn myaccuracy Negative predictive value
 npv <- function(predicted, y, cutoff) {
   sum(y[predicted <= cutoff] == 0, na.rm = TRUE)/sum(predicted <= cutoff, na.rm = TRUE)
 }
 
-#' @describeIn my_accuracy Accuracy rate
+#' @describeIn myaccuracy Accuracy rate
 acc <- function(predicted, y, cutoff) {
   (sum(y[predicted > cutoff] == 1, na.rm = TRUE) + sum(y[predicted <= cutoff] == 0, na.rm = TRUE))/length(y)
 }
 
-#' @describeIn my_accuracy AUC
+#' @describeIn myaccuracy AUC
 auc <- function(predicted, y, alpha = 0.05, digits = 2) {
   w <- Hmisc::rcorr.cens(predicted, y)
   C <- w['C Index']; se <- w['S.D.']/2
@@ -159,7 +159,7 @@ auc <- function(predicted, y, alpha = 0.05, digits = 2) {
   return(round(output, digits = digits))
 }
 
-#' @describeIn my_accuracy Best Youden's index
+#' @describeIn myaccuracy Best Youden's index
 best.youden <- function(predicted, y, by = 0.01, digits = 2, name = "") {
   # to find "best" cut-off
   cutoff <- seq(from = 0, to = 1, by = by)
@@ -176,7 +176,7 @@ best.youden <- function(predicted, y, by = 0.01, digits = 2, name = "") {
                    NPV = as.numeric(sapply(best, npv, predicted = predicted, y = y))))
 }
 
-#' @describeIn my_accuracy Best accuracy rate
+#' @describeIn myaccuracy Best accuracy rate
 best.acc <- function(predicted, y, by = 0.01, digits = 2, name = "") {
   # to find cut-off with best accuracy [(TP + TN) / (P + N)]
   cutoff <- seq(from = 0, to = 1, by = by)
@@ -192,7 +192,7 @@ best.acc <- function(predicted, y, by = 0.01, digits = 2, name = "") {
                    NPV = as.numeric(sapply(best, npv, predicted = predicted, y = y))))
 }
 
-#' @describeIn my_accuracy Accuracy of binary test
+#' @describeIn myaccuracy Accuracy of binary test
 new.accuracy <- function(predicted, y, cutoff=0.5){
   require(caret); require(Hmisc)
   #- replace 0 and 1 predictions (occur e.g. in rpart) by "almost" 0 and 1
