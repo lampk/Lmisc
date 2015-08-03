@@ -100,12 +100,12 @@ fit.response.coxtv <- function(fitModel, data, restype = c("risk", "lp"), id, sa
 
 #' @describeIn fit.response GLM LASSO (using glmnet, choose the minimum lambda)
 fit.response.glmnet1 <- function(fitModel, data, ...){
-  glmnet::predict(fitModel, newx = model.matrix(fitModel$model, data)[, -1], type = 'response', s = "lambda.min", ...)
+  glmnet::predict.cv.glmnet(fitModel, newx = model.matrix(fitModel$model, data)[, -1], type = 'response', s = "lambda.min", ...)
 }
 
 #' @describeIn fit.response GLM LASSO (using glmnet, choose the minimum lambda within 1 se)
 fit.response.glmnet2 <- function(fitModel, data, ...){
-  glmnet::predict(fitModel, newx = model.matrix(fitModel$model, data)[, -1], type = 'response', s = "lambda.1se", ...)
+  glmnet::predict.cv.glmnet(fitModel, newx = model.matrix(fitModel$model, data)[, -1], type = 'response', s = "lambda.1se", ...)
 }
 
 #' @describeIn fit.response GLM LASSO (using penalized)
