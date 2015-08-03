@@ -1,3 +1,4 @@
+#' @export
 stepmi <- function(formula, data, method = c("Majority", "Wald"), p = 1, p_value = 0.05){
   require(mice)
   if (length(method) > 1) method <- "Wald"

@@ -1,3 +1,4 @@
+#' @export
 mySummary.onevar <- function(varname, variable, group = NULL, continuous = NA, contSummary = "med.IQR", test = FALSE, digits = 1){
   if (is.na(continuous)) continuous <- ifelse(is.factor(variable) | length(unique(na.omit(variable))) <= 5, FALSE, TRUE)
 

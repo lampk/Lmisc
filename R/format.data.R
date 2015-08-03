@@ -1,3 +1,4 @@
+#' @export
 format.data <- function(data, info){
   # info should have these columns
   #- varname: name of variables
@@ -11,7 +12,7 @@ format.data <- function(data, info){
   ## recognize variable in data
   flag <- names(data)[names(data) %in% na.omit(info$varname)]
   if (length(flag) == 0){stop("No variable in this data present in info !!!")}
-  info <- info[na.omit(match(flag, info$varname)),]  
+  info <- info[na.omit(match(flag, info$varname)),]
 
   ## select variables mentioned in info
   tmp <- data[, flag]
@@ -19,7 +20,7 @@ format.data <- function(data, info){
   ## if scale & center are missing --> using NA
   if (!"scale" %in% names(info)){info$scale <- NA}
   if (!"center" %in% names(info)){info$center <- NA}
-  
+
   ## set type to lower case and no space
   info$type <- gsub(" ", "", tolower(info$type))
 

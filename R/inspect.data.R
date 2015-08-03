@@ -1,3 +1,4 @@
+#' @export
 inspect.data <- function(data, info, id, check_missing, plot = FALSE, prefix = "", outdir){
   if (missing(outdir)) outdir <- "."
 

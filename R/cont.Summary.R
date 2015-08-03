@@ -1,3 +1,4 @@
+#' @export
 cont.Summary <- function(x, contSummary = c("med.IQR", "med.90", "med.range", "mean.sd"), digits = 1, n = TRUE){
   if (length(contSummary) > 1) contSummary <- "med.IQR"
   loc <- formatC(ifelse(contSummary == "mean.sd",

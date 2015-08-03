@@ -1,3 +1,4 @@
+#' @export
 report.error <- function(data, id, criteria, message = "Untitled", csv.file, print = FALSE){
   if (missing(id)) {
     tmp <- paste("with(", data, ", which(", criteria, "))", sep = "")

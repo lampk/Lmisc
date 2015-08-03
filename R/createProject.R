@@ -4,6 +4,7 @@
 # version: 23 July 2015
 ################################################################################
 
+#' @export
 createProject <- function(dir, structure = "default"){
   ## to create project directory
   ## initial version: 23 July 2015

@@ -7,6 +7,7 @@
 
 # misc ------------------------------------------------------
 
+#' @export
 get.dropbox.folder <- function() {
   ## to get Dropbox location
   ## modified from original: http://applyr.blogspot.com/2012/08/get-path-to-your-dropbox-folder.html

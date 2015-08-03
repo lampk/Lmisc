@@ -1,3 +1,4 @@
+#' @export
 linear.test <- function(model, var, trans = c("quadratic", "spline"), df = 4, data){
   if (length(trans) > 1) trans <- "quadratic"
 

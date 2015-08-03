@@ -1,3 +1,4 @@
+#' @export
 inspect.each <- function(x, varname, type, value = NA, check_missing = TRUE){
   tmp <- NULL
 

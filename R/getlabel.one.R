@@ -1,3 +1,4 @@
+#' @export
 getlabel.one <- function(x, meta = NULL, units = TRUE, fit = FALSE){
   # to create polished label for variable x from meta information
 

@@ -1,3 +1,4 @@
+#' @export
 prop <- function(input, digits = 0, percent = TRUE, percent_sign = TRUE, short = TRUE, ci = FALSE, conf.level = 0.95){
   ## to display proportion of input
   ##- input: an expression

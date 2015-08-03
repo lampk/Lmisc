@@ -1,3 +1,4 @@
+#' @export
 mySummary.allvar <- function(formula, data, pooledGroup = FALSE, contSummary = "med.IQR",
                              caption = NULL, kable = FALSE, test = FALSE, continuous = NA,
                              digits = 1){

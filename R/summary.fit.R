@@ -1,3 +1,4 @@
+#' @export
 summary.fit <- function(fit, meta = NULL, exp = FALSE, method = 'LRT',
                         digits = 2, sep = '-', p = 0.001, tidy = TRUE){
   # to summarise fitting result

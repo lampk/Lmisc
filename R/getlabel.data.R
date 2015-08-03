@@ -1,3 +1,4 @@
+#' @export
 getlabel.data <- function(data, meta = NULL, units = TRUE, fit = FALSE){
   # to create polished label for variables in data frame data from meta information
 

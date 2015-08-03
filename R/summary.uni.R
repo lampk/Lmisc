@@ -1,3 +1,4 @@
+#' @export
 summary.uni <- function(fit, adjust = NULL, ...){
   # create list of new formulas
   old <- formula(fit)

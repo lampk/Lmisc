@@ -1,3 +1,4 @@
+#' @export
 mod.formula <- function(formula, meta = NULL){
   # to create new formula with center and scale from formula and meta information
 

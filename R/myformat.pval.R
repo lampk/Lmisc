@@ -1,3 +1,4 @@
+#' @export
 myformat.pval <- function(p, cutoff = 0.0001){
   ## to format p value:
   ##- if <cutoff: report <cutoff; otherwise use only 2 decimal digits

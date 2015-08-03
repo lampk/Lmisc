@@ -1,3 +1,4 @@
+#' @export
 freq <- function(input, prop = TRUE, digits = 0, short = TRUE){
   ## to display frequency of input
   ##- prop: display percentage

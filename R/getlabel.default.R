@@ -1,3 +1,4 @@
+#' @export
 getlabel.default <- function(x, units = TRUE, fit = FALSE){
   if (is.null(attr(x, "type"))) attr(x, "type") <- ""
   if (is.null(attr(x, "label"))) attr(x, "label") <- ""
