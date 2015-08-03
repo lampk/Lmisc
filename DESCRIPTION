@@ -26,4 +26,5 @@ Imports:
     gbm,
     glmulti,
     caret,
-    ROCR
+    ROCR,
+    c060
