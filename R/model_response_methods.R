@@ -115,7 +115,7 @@ fit.response.penalized <- function(fitModel, data, ...) {
 
 #' @describeIn fit.response GLM with SCAD (choose the minimum lambda)
 fit.response.scad <- function(fitModel, data, ...) {
-  ncvreg::predict(fitModel, X = model.matrix(fitModel$model, data)[, -1], type = "response", lambda = fitModel$lambda.min)
+  ncvreg::predict.ncvreg(fitModel, X = model.matrix(fitModel$model, data)[, -1], type = "response", lambda = fitModel$lambda.min)
 }
 
 #' @describeIn fit.response GAM
@@ -125,12 +125,12 @@ fit.response.gam <- function(fitModel, data, ...) {
 
 #' @describeIn fit.response CART
 fit.response.rpart <- function(fitModel, data, ...) {
-  rpart::predict(fitModel, newdata = data, ...)
+  rpart::predict.rpart(fitModel, newdata = data, ...)
 }
 
 #' @describeIn fit.response Random forest
 fit.response.randomForest <- function(fitModel, data, ...) {
-  randomForest::predict(fitModel, newdata = data, type = "response", ...)
+  randomForest::predict.randomForest(fitModel, newdata = data, type = "response", ...)
 }
 
 #' @describeIn fit.response Boosting
