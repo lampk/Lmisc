@@ -1,5 +1,5 @@
 #' @export
-format.each <- function(x, label = NA, type, unit = NA, scale = NA, center = NA, value = NA, levels = NA, missing = NA){
+myformat.each <- function(x, label = NA, type, unit = NA, scale = NA, center = NA, value = NA, levels = NA, missing = NA){
   type <- tolower(type)
   ## missing data
   if (!is.na(missing)){

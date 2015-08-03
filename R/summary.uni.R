@@ -1,5 +1,5 @@
 #' @export
-summary.uni <- function(fit, adjust = NULL, ...){
+mySummary.uni <- function(fit, adjust = NULL, ...){
   # create list of new formulas
   old <- formula(fit)
   x <- attr(terms(old), "term.labels")
@@ -28,9 +28,9 @@ summary.uni <- function(fit, adjust = NULL, ...){
   } else {
     output <- do.call(rbind,
                       mapply(function(fits, df, ...) {
-                        summary.fit(fits, ...)[1:df,]
+                        mySummary.fit(fits, ...)[1:df,]
                       }, fit = fits, df = df, MoreArgs = list(...), SIMPLIFY = FALSE))
-    colnames(output) <- colnames(summary.fit(fits[[1]], ...))
+    colnames(output) <- colnames(mySummary.fit(fits[[1]], ...))
   }
 
   # out

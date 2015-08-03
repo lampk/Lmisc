@@ -1,5 +1,5 @@
 #' @export
-format.data <- function(data, info){
+myformat.data <- function(data, info){
   # info should have these columns
   #- varname: name of variables
   #- label: label of variables
@@ -25,7 +25,7 @@ format.data <- function(data, info){
   info$type <- gsub(" ", "", tolower(info$type))
 
   ## perform formating
-  return(data.frame(mapply(format.each,
+  return(data.frame(mapply(myformat.each,
                            x = as.list(tmp),
                            label = info$label,
                            type = info$type,
