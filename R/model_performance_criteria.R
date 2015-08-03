@@ -6,7 +6,7 @@
 #' @return numeric value of model's performance
 #' @export
 myaccuracy <- function(predicted, y, criteria = mse, ...){
-  # browser()
+
   output <- vector("list", length(criteria))
   for (i in (1:length(criteria))){
     output[[i]] <- criteria[[i]](predicted, y, ...)
@@ -166,7 +166,7 @@ best.youden <- function(predicted, y, by = 0.01, digits = 2, name = "") {
   y <- y[!is.na(predicted)]; predicted <- predicted[!is.na(predicted)]
   tmp <- sapply(cutoff, function(x, .y = y, .p = predicted){
     sen(predicted = .p, y = .y, cutoff = x) + spe(predicted = .p, y = .y, cutoff = x)
-    })
+  })
   best <- cutoff[tmp == max(tmp)]
   data.frame(model = name,
              cbind(cutoff = best,
