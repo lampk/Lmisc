@@ -11,20 +11,9 @@ License: GPL-2
 LazyData: TRUE
 URL: http://github.com/lampk/Lmisc
 BugReports: http://github.com/lampk/Lmisc/issues
-Imports: 
-  RCurl,
+Imports: ,
+    RCurl,
     car,
     lubridate,
     mice,
-    survival,
-    glmnet,
-    penalized,
-    ncvreg,
-    mgcv,
-    rpart,
-    randomForest,
-    gbm,
-    glmulti,
-    caret,
-    ROCR,
-    c060
+    R306
