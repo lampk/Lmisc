@@ -153,7 +153,7 @@ mySummary.fit <- function(fit, meta = NULL, exp = FALSE, method = 'LRT',
                      ifelse(is.na(as.numeric(result1[, 2])), '', formatC(as.numeric(result1[, 2]), digits, format = 'f')),
                      paste('(', ifelse(is.na(as.numeric(result1[, 4])), '', formatC(as.numeric(result1[, 4]), digits, format = 'f')), ', ',
                            ifelse(is.na(as.numeric(result1[, 5])), '', formatC(as.numeric(result1[, 5]), digits, format = 'f')), ')', sep = ''),
-                     ifelse(is.na(as.numeric(result1[, 6])), '', myformat.pval(as.numeric(result1[, 6]), cutoff = p)))
+                     ifelse(is.na(as.numeric(result1[, 6])), '', R306::myformat.pval(as.numeric(result1[, 6]), cutoff = p)))
     result2[, 3] <- ifelse(result2[, 3] == '(, )', '', result2[, 3])
     colnames(result2) <- c('Covariate', ifelse(exp, 'exp(Coefficient)', 'Coefficient'), '(95% CI)', 'p value')
   }
