@@ -5,7 +5,7 @@
 ################################################################################
 
 #' @export
-createProject <- function(dir, structure = c("default", "journalclub", "presentation")){
+createProject <- function(dir, structure = c("default", "journalclub", "presentation", "proposal")){
   ## to create project directory
   ## initial version: 23 July 2015
 
@@ -13,7 +13,8 @@ createProject <- function(dir, structure = c("default", "journalclub", "presenta
   template <- switch(structure,
                      default = file.path(system.file(package = "Lmisc"), "structure", "default.txt"),
                      journalclub = file.path(system.file(package = "Lmisc"), "structure", "journalclub.txt"),
-                     presentation = file.path(system.file(package = "Lmisc"), "structure", "presentation.txt"))
+                     presentation = file.path(system.file(package = "Lmisc"), "structure", "presentation.txt"),
+                     proposal = file.path(system.file(package = "Lmisc"), "structure", "proposal.txt"))
   .str <- readLines(template)
 
   ## create folder structure
