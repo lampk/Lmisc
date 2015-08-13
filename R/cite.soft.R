@@ -6,7 +6,7 @@
 #'
 #' @return Bibtex file
 #' @export
-cite.soft <- function(soft, key, output = "software.bib") {
+cite.soft <- function(soft, key, output = "software.bib", append = FALSE) {
 
   capture.output(invisible(mapply(function(key_i, soft_i) {
     ## get citation
@@ -18,7 +18,7 @@ cite.soft <- function(soft, key, output = "software.bib") {
     ## output
     print(toBibtex(tmp))
     },
-         key_i = key, soft_i = soft)), file = output)
+         key_i = key, soft_i = soft)), file = output, append = append)
 }
 
 add.key <- function(key, obj){
