@@ -47,3 +47,18 @@ timeplot.select <- function(formula, id, data, smoother = c("loess", "spline"),
   out$label <- names(crit)
   return(out)
 }
+
+#' @export
+timeplot.notrend <- function(formula, data, smoother = c("loess", "spline"), df = 4, ...){
+  # fit smoother
+  if (length(smoother) > 1) smoother <- "loess"
+  fit <- switch(smoother,
+                "loess" = loess(formula, data = data, ...),
+                "spline" = lm(paste(formula[2], formula[1], "splines::ns(", formula[3], ", df =", df, ")", sep = ""),
+                              data = data))
+
+  # get the residuals
+  tmp <- data.frame(y = data[, as.character(formula[[2]])],
+                    pred = predict(fit, newdata = data))
+  return(tmp$y - tmp$pred)
+}
