@@ -4,7 +4,7 @@
 \alias{cite.soft}
 \title{To create BibTex file for references of software}
 \usage{
-cite.soft(soft, key, output = "software.bib")
+cite.soft(soft, key, output = "software.bib", append = FALSE)
 }
 \arguments{
 \item{soft}{list of citation or package want to reference}
