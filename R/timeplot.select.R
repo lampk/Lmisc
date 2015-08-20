@@ -25,6 +25,7 @@ timeplot.select <- function(formula, id, data, smoother = c("loess", "spline"),
                     y = data[, as.character(formula[[2]])],
                     x = data[, as.character(formula[[3]])],
                     pred = predict(fit, newdata = data))
+  names(tmp) <- c("id", "y", "x", "pred")
   tmp2 <- dplyr::summarise(dplyr::group_by(dplyr::mutate(tmp,
                                                          resid = y - pred),
                                            id),
@@ -58,7 +59,12 @@ timeplot.notrend <- function(formula, data, smoother = c("loess", "spline"), df 
                               data = data))
 
   # get the residuals
-  tmp <- data.frame(y = data[, as.character(formula[[2]])],
-                    pred = predict(fit, newdata = data))
-  return(tmp$y - tmp$pred)
+  out <- data[, as.character(formula[[2]])] - predict(fit, newdata = data)
+
+  # to remove unneccessary information
+  if (is.null(dim(out))) {
+    return(out)
+  } else {
+    return(subset(out)[, 1])
+  }
 }
