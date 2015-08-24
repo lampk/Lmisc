@@ -1,5 +1,6 @@
 
 # function to convert a long data frame with derived variables into mids object
+# source: http://stackoverflow.com/questions/26667162/perform-operation-on-each-imputed-dataset-in-rs-mice, mice
 as.mids2 <- function(data2, .imp = 1, .id = 2, .idx){
   m <- max(as.numeric(levels(data2[,  .imp])))
   dat <- data2[data2[, .imp] == 0, -c(.imp, .id)]
