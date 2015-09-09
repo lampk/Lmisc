@@ -40,7 +40,7 @@ hete.est <- function(formula, data, value = NULL) {
     value <- rownames(tmp3)
   }
   out <- rbind(c("Value", "n", "Freq", "Prop", "SE", "lo", "hi"),
-               cbind(row_names, tmp3))
+               cbind(value, tmp3))
   dimnames(out) <- NULL
   return(out)
 }
