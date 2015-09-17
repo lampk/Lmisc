@@ -45,3 +45,25 @@ hete.est <- function(formula, data, value = NULL) {
   return(out)
 }
 
+#' @export
+hete.heatplot <- function(formula, data) {
+  ## misc
+  tmp <- R306::mySummary.simple(formula, data)
+  tmp2 <- reshape2::melt(tmp[, seq(2, ncol(tmp) - 4, 4)])
+  xtmp <- levels(tmp2$Var2); ytmp <- levels(tmp2$Var1)
+  require(RColorBrewer)
+  myPalette <- colorRampPalette(rev(brewer.pal(11, "Spectral")), space = "Lab")
+  ## plot
+  ggplot(data = tmp2, aes(x = Var2, y = Var1, fill = value)) +
+    geom_tile() +
+    labs(x = "", y = "") +
+    scale_fill_gradientn(colours = myPalette(100)) +
+    scale_x_discrete(expand = c(0, 0), breaks = NULL) +
+    scale_y_discrete(expand = c(0.1, 0)) +
+    annotate(geom = "text", y = rep(length(ytmp) + 1, length(xtmp)), x = 1:length(xtmp), angle = 30, size = 4, hjust = 0,
+             label = xtmp) +
+    annotate(geom = "text", y = 1:length(ytmp), x = length(xtmp) + 1, size = 4, hjust = 1,
+             label = formatC(tmp[, "I2"], format = "f", digits = 0)) +
+    theme_bw() +
+    theme(axis.ticks = element_blank())
+}

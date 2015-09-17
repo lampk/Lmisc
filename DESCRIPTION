@@ -16,4 +16,5 @@ Imports: RCurl,
     lubridate,
     mice,
     R306,
-    rmeta
+    rmeta,
+    RColorBrewer
