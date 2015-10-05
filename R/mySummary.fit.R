@@ -31,7 +31,7 @@ mySummary.fit <- function(fit, meta = NULL, exp = FALSE, method = 'LRT',
 
 
   # update fit
-  fit <- update(fit, formula. = new_formula)
+  fit <- update(fit, formula. = new_formula, data = dat)
 
   # get the content
   ## get coefficient's estimates
