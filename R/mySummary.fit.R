@@ -14,11 +14,10 @@
 mySummary.fit <- function(fit, meta = NULL, exp = FALSE, method = 'LRT',
                           digits = 2, sep = '-', p = 0.001, tidy = TRUE){
   # to summarise fitting result
-  #browser()
 
   # define fit method
   fit_method <- as.character(fit$call[1])
-  if (!fit_method %in% c("lm", "glm", "glm.nb", "rq", "coxph")) stop('This fitting method is not implemented yet !!!')
+  if (!fit_method %in% c("lm", "glm", "glm.nb", "rq", "coxph", "geeglm")) stop('This fitting method is not implemented yet !!!')
 
   # get original formula
   org_formula <- formula(fit)
@@ -50,9 +49,16 @@ mySummary.fit <- function(fit, meta = NULL, exp = FALSE, method = 'LRT',
   if (method == 'LRT'){
     # warning if there is interaction
     if (any(attr(terms(attr(new_formula, 'org_formula')), 'order') > 1)) stop('!!! There is interaction in your model. Use Wald method instead !!!')
-    # ci
-    ci <- data.frame(confint(fit))
-    pval <- as.data.frame(drop1(fit, test = 'Chisq'))[-1,]
+
+    if (fit_method == "geeglm") {
+      cat("For geeglm, confidence intervals and comparison of nest models are derived from Wald test statistic !\n")
+      ci <- cbind(est - qnorm(0.975) * se, est + qnorm(0.975) * se)
+      pval <- as.data.frame(Lmisc:::drop1.geeglm(fit))
+    } else {
+      ci <- data.frame(confint(fit))
+      pval <- as.data.frame(drop1(fit, test = 'Chisq'))[-1,]
+    }
+
     # output
     tmp <- cbind('coef' = est, 'se' = se, 'lower.CI' = ci[, 1], 'upper.CI' = ci[, 2], 'p.value' = NA)
   }

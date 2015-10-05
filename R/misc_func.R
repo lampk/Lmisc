@@ -28,3 +28,27 @@ as.mids2 <- function(data2, .imp = 1, .id = 2, .idx){
   ## output
   return(ini)
 }
+
+
+# function to perform drop1 for geeglm objects ----------------------------
+
+drop1.geeglm <- function(object) {
+  ## prepare
+  all <- formula(object)
+  x <- attr(object$terms, "term.labels")
+  new <- sapply(x, function(z) update(all, paste(". ~ .", z, sep = "-")))
+
+  ## get output
+  output <- do.call(rbind, mapply(function(z) {
+    newfit <- update(object, formula = z)
+    anova(object, newfit)
+  }, z = new, SIMPLIFY = FALSE))
+
+  ## modify output attributes
+  attr(output, "heading") <- c("Single term deletions",
+                               paste("Model:", deparse(all)))
+  names(output)[names(output) == "P(>|Chi|)"] <- "Pr(>Chi)"
+
+  ## return
+  return(output)
+}
