@@ -37,10 +37,11 @@ drop1.geeglm <- function(object) {
   all <- formula(object)
   x <- attr(object$terms, "term.labels")
   new <- sapply(x, function(z) update(all, paste(". ~ .", z, sep = "-")))
+  data <- object$data
 
   ## get output
   output <- do.call(rbind, mapply(function(z) {
-    newfit <- update(object, formula = z)
+    newfit <- update(object, formula = z, data = data)
     anova(object, newfit)
   }, z = new, SIMPLIFY = FALSE))
 
