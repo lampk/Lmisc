@@ -52,3 +52,22 @@ drop1.geeglm <- function(object) {
   ## return
   return(output)
 }
+
+
+# function to modify formula (drop each variable or create univari --------
+
+adj.formula <- function(formula, adjust = NULL, type = c("drop", "uni")) {
+  if (length(type) > 1) {type <- "drop"}
+  x <- attr(terms(formula), "term.labels")
+  if (type == "drop") {
+    newformula <- sapply(x, function(z) update(formula, paste(". ~ .", z, sep = "-")))
+  } else {
+    newformula <- sapply(x, function(z) update(formula, paste(". ~ ", z)))
+  }
+
+  if (is.null(adjust) == FALSE) {
+    newformula <- sapply(paste(newformula, adjust, sep = " + "), as.formula)
+  }
+
+  return(newformula)
+}
