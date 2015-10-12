@@ -195,11 +195,11 @@ mySummary.uni <- function(fit, adjust = NULL, ...){
 
   # create output
   if (length(fits) == 1) {
-    output <- mySummary.fit(fits, ...)[1:df[1],]
+    output <- mySummary.fit(fits[[1]], ...)[1:df[1],]
   } else {
     output <- do.call(rbind,
-                      mapply(function(fits, df, ...) {
-                        mySummary.fit(fits, ...)[1:df,]
+                      mapply(function(fit, df, ...) {
+                        mySummary.fit(fit, ...)[1:df,]
                       }, fit = fits, df = df, MoreArgs = list(...), SIMPLIFY = FALSE))
     colnames(output) <- colnames(mySummary.fit(fits[[1]], ...))
   }
