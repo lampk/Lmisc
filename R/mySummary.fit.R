@@ -195,7 +195,7 @@ mySummary.uni <- function(fit, adjust = NULL, ...){
 
   # create output
   if (length(fits) == 1) {
-    output <- summary.fit(fits, ...)[1:df[1],]
+    output <- mySummary.fit(fits, ...)[1:df[1],]
   } else {
     output <- do.call(rbind,
                       mapply(function(fits, df, ...) {
