@@ -9,6 +9,8 @@ createProject <- function(dir, structure = c("default", "journalclub", "presenta
   ## to create project directory
   ## initial version: 23 July 2015
 
+  if (length(structure) > 1) {structure <- "default"}
+
   ## read project template
   template <- switch(structure,
                      default = file.path(system.file(package = "Lmisc"), "structure", "default.txt"),
