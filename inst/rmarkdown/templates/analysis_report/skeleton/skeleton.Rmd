@@ -1,0 +1,30 @@
+---
+title: Title here
+author: Author here
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output: 
+  knitrBootstrap::bootstrap_document:
+    theme: simplex
+    theme.chooser: FALSE
+    highlight.chooser: FALSE
+    menu: FALSE
+  word_document:
+    reference_docx: word-styles-reference-01.docx
+    fig_caption: true
+---
+
+```{r option, echo=FALSE, message=FALSE, warning=FALSE}
+## load required library
+pkg_list <- c("haven", "dplyr", "lubridate", "reshape2", "car", "Hmisc",
+              "R306", "Lmisc", "ggplot2", "scales", "knitr")
+for (i in pkg_list) eval(parse(text = paste("library(", i, ")", sep = "")))
+
+## knitr options
+opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, results = "asis", autodep = TRUE,
+               fig.width = 21, fig.height = 7, dpi = 300,
+               fig.caption = TRUE, fig.path = "Figure/",
+               cache = TRUE, cache.path = "Cache/")
+
+```
+
+# Analysis

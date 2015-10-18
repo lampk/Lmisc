@@ -1,0 +1,4 @@
+name: Analysis Report
+description: >
+ Template for creating report of a statistical analysis.
+create_dir: false
