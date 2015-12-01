@@ -63,8 +63,10 @@ mySummary.fit <- function(fit, meta = NULL, exp = FALSE, method = 'LRT',
     tmp <- cbind('coef' = est, 'se' = se, 'lower.CI' = ci[, 1], 'upper.CI' = ci[, 2], 'p.value' = NA)
   }
 
-  if (fit_method != "coxph") tmp <- tmp[-1,]
-  dim(tmp) <- c(length(colnames(model.matrix(fit))[colnames(model.matrix(fit)) != "(Intercept)"]), 5)
+  if (fit_method != "coxph") {
+    tmp <- tmp[-1,]
+    dim(tmp) <- c(length(colnames(model.matrix(fit))[colnames(model.matrix(fit)) != "(Intercept)"]), 5)
+  }
 
   ## if exponential
   if (exp) {tmp1 <- cbind(exp(tmp[,1]), tmp[,2], exp(tmp[,3]), exp(tmp[,4]), tmp[,5])
