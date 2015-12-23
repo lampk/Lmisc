@@ -26,3 +26,17 @@ createProject <- function(dir, structure = c("default", "journalclub", "presenta
   cat(paste("Project", basename(dir), "was created in", dirname(dir), "\n", sep = " "))
 }
 
+#' @export
+createProject2 <- function(dir, structure = c("simple_analysis", "OUCRU_RCT", "journal_club", "presentation", "proposal")){
+  ## to create project directory
+  ## initial version: 23 July 2015
+
+  if (length(structure) > 1) {structure <- "simple_analysis"}
+
+  file.copy(from = file.path(system.file(package = "Lmisc"), "structure", structure),
+            to = dir, recursive = TRUE)
+
+  # inform
+  cat(paste("Project", basename(dir), "was created in", dirname(dir), "\n", sep = " "))
+}
+
