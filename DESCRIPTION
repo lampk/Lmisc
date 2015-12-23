@@ -5,16 +5,19 @@ Version: 0.1
 Date: 2015-07-23
 Author: Phung Khanh Lam
 Maintainer: Phung Khanh Lam <phungkhanhlam@gmail.com>
-Depends: R (>= 3.1.0)
+Depends:
+    R (>= 3.1.0)
 Description: Miscellaneous functions for data analysis
 License: GPL-2
 LazyData: TRUE
 URL: http://github.com/lampk/Lmisc
 BugReports: http://github.com/lampk/Lmisc/issues
-Imports: RCurl,
+Imports:
+    RCurl,
     car,
     lubridate,
     mice,
     R306,
     rmeta,
     RColorBrewer
+RoxygenNote: 5.0.1

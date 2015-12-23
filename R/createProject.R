@@ -33,7 +33,11 @@ createProject2 <- function(dir, structure = c("simple_analysis", "OUCRU_RCT", "j
 
   if (length(structure) > 1) {structure <- "simple_analysis"}
 
-  file.copy(from = file.path(system.file(package = "Lmisc"), "structure", structure),
+  ## create destination folder
+  dir.create(dir)
+
+  ## copy folder structure into destination folder
+  file.copy(from = file.path(system.file(package = "Lmisc"), "structure", structure, "."),
             to = dir, recursive = TRUE)
 
   # inform
