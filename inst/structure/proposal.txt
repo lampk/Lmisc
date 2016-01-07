@@ -1,5 +1,10 @@
 Proposal
+
 Literature
-GrantFunding_plan
+
+Grant
+Funding_plan
+
 Submission
+
 Documentation
