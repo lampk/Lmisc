@@ -72,3 +72,45 @@ adj.formula <- function(formula, adjust = NULL, type = c("drop", "uni")) {
 
   return(newformula)
 }
+
+
+# function to convert OUCRU data dictionary into my favorite varia --------
+
+#' @export
+convert.info <- function(oucru_info, oucru_category) {
+  require(dplyr)
+  require(car)
+  ## get value & level for factors
+  cat_tmp <- distinct(oucru_category) %>%
+    mutate(database_value = ifelse(is.na(suppressWarnings(as.numeric(`Database value`))),
+                                   paste("'", `Database value`, "'", sep = ""),
+                                   `Database value`),
+           title_en = paste("'", `Title EN`, "'", sep = "")) %>%
+    group_by(`Category Code`) %>%
+    summarise(value = paste(database_value, title_en, sep = "=", collapse = ";"),
+              level = paste(title_en, collapse = ";")) %>%
+    ungroup() %>%
+    rename(`Value range` = `Category Code`)
+
+  ## convert
+  output <- merge(oucru_info, cat_tmp, by = "Value range", all.x = TRUE) %>%
+    transmute(varname = `Field Name`,
+              label   = `Title EN`,
+              type    = Recode(`Data Type`,
+                               recodes = "c('Category', 'ExCategory') = 'factor';
+                               c('Free Text', 'Title', 'CombinedKey', 'Time', 'Check') = 'character';
+                               c('EDateTime', 'SDateTime') = 'datetime';
+                               c('Integer', 'Float') = 'numeric';
+                               else = NA"),
+              unit    = NA,
+              value   = ifelse(is.na(type), NA,
+                               ifelse(type == "factor", value,
+                                      ifelse(type == "character", NA,
+                                             ifelse(type == "datetime", "ymd_hms",
+                                                    ifelse(is.na(`Value range`), NA,
+                                                           gsub(pattern = "-", replacement = ";", x = `Value range`)))))),
+              levels  = ifelse(is.na(type), NA,
+                               ifelse(type != "factor", NA, level)),
+              missing = NA)
+  return(output)
+}
