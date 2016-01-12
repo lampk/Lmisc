@@ -1,15 +1,15 @@
 #' @export
 report.error <- function(data, id, criteria, message = "Untitled", csv.file, print = FALSE){
   if (missing(id)) {
-    tmp <- paste("with(", data, ", which(", criteria, "))", sep = "")
+    tmp <- paste("with(data", ", which(", criteria, "))", sep = "")
   } else {
-    tmp <- paste("subset(", data, ", subset = ", criteria, ", select =", id, ", drop = TRUE", ")", sep = "")
+    tmp <- paste("subset(data", ", subset = ", criteria, ", select =", id, ", drop = TRUE", ")", sep = "")
   }
 
   if (print) print(tmp) else {
     idx <- eval(parse(text = tmp))
     if (length(idx) > 0) {
-      tmp2 <- paste("with(", data, ", which(", criteria, "))", sep = "")
+      tmp2 <- paste("with(data", ", which(", criteria, "))", sep = "")
       idx2 <- eval(parse(text = tmp2))
       if (missing(id)) {
         output <- data.frame(id = NA,
