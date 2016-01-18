@@ -1,5 +1,6 @@
 #' @export
 report.error <- function(data, id, criteria, message = "Untitled", csv.file, print = FALSE){
+  data <- as.data.frame(data)
   if (missing(id)) {
     tmp <- paste("with(data", ", which(", criteria, "))", sep = "")
   } else {
