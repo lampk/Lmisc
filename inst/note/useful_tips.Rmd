@@ -1,0 +1,81 @@
+---
+title: "Useful tips"
+author: "LPK"
+date: "December 19, 2015"
+output: html_document
+---
+
+## ggplot2
+* R cookbook
+* Advance ggplot: 
+    + ggplot2: cheatsheet: http://zevross.com/blog/2014/08/04/beautiful-plotting-in-r-a-ggplot2-cheatsheet-3/
+    + Under the hood of ggplot2 graphics in R: http://zevross.com/blog/2014/11/20/under-the-hood-of-ggplot2-graphics-in-r/
+
+```{r}
+## dataset
+library(ggplot2)
+nmmaps <- read.csv("http://zevross.com/blog/wp-content/uploads/2014/08/chicago-nmmaps.csv", as.is = TRUE)
+nmmaps$date <- as.Date(nmmaps$date)
+nmmaps <- nmmaps[nmmaps$date>as.Date("1996-12-31"),]
+nmmaps$year <- substring(nmmaps$date,1,4)
+head(nmmaps)
+
+## under the hood: ggplot_gtable, ggplot_build
+## the initial plot
+ggplot(nmmaps, aes(date, temp)) + geom_point(color = "chartreuse4") + facet_wrap(~ year, ncol = 2)
+
+## to eliminate the second x-axis
+### ggplot_build: outputs a list of data frames (one for each layer) and a panel object with information about axis limits among other things
+### ggplot_gtable: get all grid graphical object ("grobs") neccessary for displaying the plot
+g <- ggplot(nmmaps, aes(date,temp)) + geom_point(color = "chartreuse4") + facet_wrap(~ year, ncol = 2)
+gTable <- ggplot_gtable(ggplot_build(g))
+
+### print each of the grobs to a separate page in a PDF and investigate
+library(grid) # we need grid for several functions
+pdf(file = file.path("grobs.pdf"))
+for(i in 1:length(gTable$grobs)){
+  grid.draw(gTable$grobs[[i]])
+  grid.text(i, x = unit(0.1, "npc"), y = unit(0.1, "npc"))
+  grid.newpage()
+}
+dev.off()
+
+### tracking down axis label
+gTable$grobs[[17]]
+attributes(gTable$grobs[[17]])
+attributes(gTable$grobs[[17]]$children)
+attributes(gTable$grobs[[17]]$children[2])
+attributes(gTable$grobs[[17]]$children[2]$axis)
+gTable$grobs[[17]]$children[2]$axis$grobs 
+attributes(gTable$grobs[[17]]$children[2]$axis$grobs[[2]])
+gTable$grobs[[17]]$children[2]$axis$grobs[[2]]$label 
+
+### assigning the empty string instead of the years
+gTable$grobs[[17]]$children[2]$axis$grobs[[2]]$label<-""
+
+### plot gTable using grid.draw()
+grid.draw(gTable)
+
+### find and get rid of the tick marks
+gTable$grobs[[17]]$children[2]$axis$grobs[[1]]$y<-rep(unit(0, units="cm"),5)
+grid.draw(gTable)
+
+### to rotate the x-axis on the 3rd plot
+#### attributes(gTable$grobs[[16]]$children[2]$axis$grobs[[2]])
+
+#### Change the rotation
+gTable$grobs[[16]]$children[2]$axis$grobs[[2]]$rot<-30
+
+#### Rotation make text cramped with text so add x and y space
+gTable$grobs[[16]]$children[2]$axis$grobs[[2]]$x<-
+  gTable$grobs[[16]]$children[2]$axis$grobs[[2]]$x-unit(0.025, "npc")
+
+gTable$grobs[[16]]$children[2]$axis$grobs[[2]]$y<-
+  gTable$grobs[[16]]$children[2]$axis$grobs[[2]]$y-rep(unit(0.1, units="cm"),5)
+
+#### move the x-label left & down
+gTable$grobs[[18]]$x<-unit(0.25, units="npc")
+gTable$grobs[[18]]$y<-unit(0.1, units="npc")
+grid.draw(gTable)
+```
+
