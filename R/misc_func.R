@@ -114,3 +114,30 @@ convert.info <- function(oucru_info, oucru_category) {
               missing = NA)
   return(output)
 }
+
+
+# update R and related software (for Window) ------------------------------
+
+#' @export
+my.update <- function() {
+  require(installr)
+  ## update R
+  updateR(browse_news = FALSE,
+          install_R = TRUE,
+          copy_packages = TRUE,
+          copy_Rprofile.site = ,
+          keep_old_packages = FALSE,
+          update_packages = TRUE,
+          start_new_R = FALSE,
+          quit_R = FALSE,
+          silent = TRUE)
+
+  ## install Rtools
+  install.Rtools()
+
+  ## install pandoc
+  install.pandoc()
+
+  ## update RStudio
+  install.RStudio()
+}
