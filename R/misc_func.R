@@ -141,3 +141,48 @@ my.update <- function() {
   ## update RStudio
   install.RStudio()
 }
+
+
+# load my favourite R packages --------------------------------------------
+
+#' @export
+myLibrary <- function(packages = c("tidyverse", "lubridate", "scales", "Hmisc", "R306")){
+  id <- packages[packages %in% installed.packages()[, "Package"]]
+  for (i in id){library(i, character.only = TRUE)}
+  cat("The following R packages are loaded: ", paste(id, collapse = ","), ".\n", sep = "")
+  if (length(id) < length(packages)){
+    install.packages(pkgs = packages[!packages %in% id], dependencies = TRUE)
+  }
+}
+
+# draw Venn Diagram -------------------------------------------------------
+
+#' @export
+myVennCount <- function(data, variables) {
+  tmpdat <- data[, variables]
+  n <- length(variables)
+  idx <- lapply(1:n, function(x) combn(1:n, x))
+  out <- lapply(1:n, function(x){
+    tmp <- idx[[x]]
+    tmp2 <- matrix(paste("(tmpdat[,", tmp, "] == 1)", sep = ""), ncol = ncol(tmp))
+    value <- apply(tmp2, 2, function(y){eval(parse(text = paste("sum(", paste(y, collapse = "&"), ")", sep = "")))})
+    names(value)  <- apply(tmp,  2, function(z){ifelse(x == 1, ifelse(n > 1, paste("area", z, sep = ""), "area"), paste("n", paste(z, collapse = ""), sep = ""))})
+    if (n == 2){names(value)[names(value) == "n12"] <- "cross.area"}
+    return(value)
+  })
+  return(unlist(out))
+}
+
+#' @export
+myVenn <- function(data, variables){
+  require(VennDiagram)
+  m <- length(variables)
+  n <- myVennCount(data, variables)
+  func <- ifelse(m == 1, "draw.single.venn",
+                 ifelse(m == 2, "draw.pairwise.venn",
+                        ifelse(m == 3, "draw.triple.venn",
+                               ifelse(m == 4, "draw.quad.venn",
+                                      ifelse(m == 5, "draw.quintuple.venn", NA)))))
+  if (is.na(func)){stop("Unable to draw Venn diagram for more than 5 variables !!!")}
+  eval(parse(text = paste(func, "(", paste(paste(paste(names(n), n, sep = "="), collapse = ","), ",category = c(", paste(paste("'", variables, "'", sep = ""), collapse = ","), ")", sep = ""), ")", sep = "")))
+}
