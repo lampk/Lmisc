@@ -19,5 +19,7 @@ Imports:
     mice,
     R306,
     rmeta,
-    RColorBrewer
-RoxygenNote: 5.0.1
+    RColorBrewer,
+    shiny,
+    miniUI
+RoxygenNote: 6.0.0

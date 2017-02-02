@@ -1,0 +1,1 @@
+To collect all products created from the project

@@ -27,11 +27,11 @@ createProject <- function(dir, structure = c("default", "journalclub", "presenta
 }
 
 #' @export
-createProject2 <- function(dir, structure = c("simple_analysis", "OUCRU_RCT", "journal_club", "presentation", "proposal")){
+createProject2 <- function(dir, structure = c("project", "project_analysis", "simple_analysis", "OUCRU_RCT", "journal_club", "presentation", "proposal")){
   ## to create project directory
   ## initial version: 23 July 2015
 
-  if (length(structure) > 1) {structure <- "simple_analysis"}
+  if (length(structure) > 1) {structure <- "project"}
 
   ## create destination folder
   dir.create(dir)

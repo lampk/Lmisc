@@ -1,0 +1,1 @@
+To collect all information, notes, plan, tasks related to the project

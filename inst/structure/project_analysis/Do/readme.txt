@@ -1,0 +1,1 @@
+To collect all information and outputs when conducting the project

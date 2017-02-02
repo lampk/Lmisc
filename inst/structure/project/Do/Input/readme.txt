@@ -1,0 +1,1 @@
+To collect all input required to conduct the project

@@ -1,0 +1,1 @@
+To collect all output created from the project
