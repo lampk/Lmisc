@@ -171,7 +171,7 @@ insert_date_addin <- function() {
   server <- function(input, output, session){
     ## stop app when click "Done"
     observeEvent(input$done, {
-      rstudioapi::insertText(as.character(input$date))
+      rstudioapi::insertText(paste(as.character(input$date), "00:00"))
       stopApp()
     })
   }
