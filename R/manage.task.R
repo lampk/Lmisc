@@ -1,61 +1,91 @@
-extract_task <- function(file){
-  tmp <- readLines(file, warn = FALSE)
-  return(tmp[grepl(pattern = "[:][[:alnum:]_]", x = tmp)])
+# extract_task <- function(file){
+#   tmp <- readLines(file, warn = FALSE)
+#   return(tmp[grepl(pattern = "[:][[:alnum:]_]", x = tmp)])
+# }
+#
+# split_task <- function(object) {
+#   tmp <- grep(pattern = ":TODO:", x = object)
+#   tmp2 <- rep(1:length(tmp), times = diff(c(tmp, length(object) + 1)))
+#   if (tmp[1] > 1){object <- object[-c(1:(tmp[1] - 1))]}
+#   return(split(x = object, f = tmp2))
+# }
+
+extract_info <- function(object,
+                         info = c("proj_tags", "proj_close", "todo", "info", "tags",
+                                  "personnel", "cost", "deadline", "priority", "start", "end")) {
+  if (info == "todo") {
+    pattern <- "## ----"
+    tmp <- grepl(pattern = pattern, x = object)
+    if (any(tmp)) {
+      out <- gsub("^\\s+|\\s+$", "",
+                  gsub(pattern = pattern,
+                       replacement = "",
+                       x = sapply(object[tmp], function(y) strsplit(y, split = ",")[[1]][1], USE.NAMES = FALSE)))
+    } else {out <- ""}
+  } else {
+    pattern <- paste(info, "=")
+    tmp <- grepl(pattern = pattern, x = object)
+    if (any(tmp)) {
+      out <- gsub("^\\s+|\\s+$", "", gsub(pattern = pattern, replacement = "", x = object[tmp]))
+    } else {out <- ""}
+  }
+
+  return(out)
 }
 
-extract_todo <- function(object) {
-  tmp <- grep(pattern = ":TODO:", x = object)
+extract_task <- function(file, output = "tmp.todo"){
+  knitr::purl(file, output = output,
+              quiet = TRUE, documentation = 1)
+  tmp <- readLines(output, warn = FALSE)
+  file.remove(output)
+  tmp2 <- grepl(pattern = "## ----", x = tmp)
+  tmp3 <- grepl(pattern = 'engine=\"todo\"', x = tmp)
+  tmp4 <- rep(tmp3[tmp2], times = diff(c(which(tmp2), length(tmp) + 1)))
+  return(tmp[tmp4])
+}
+
+split_task <- function(object) {
+  tmp <- grep(pattern = 'engine=\"todo\"', x = object)
   tmp2 <- rep(1:length(tmp), times = diff(c(tmp, length(object) + 1)))
   if (tmp[1] > 1){object <- object[-c(1:(tmp[1] - 1))]}
   return(split(x = object, f = tmp2))
 }
 
-extract_info <- function(object,
-                         info = c("proj_tags", "proj_close", "TODO", "info", "tags",
-                                  "personnel", "cost", "deadline", "priority", "start", "end")) {
-  pattern <- paste(":", info, ":", sep = "")
-  tmp <- grepl(pattern = pattern, x = object)
-  if (any(tmp)) {
-    out <- gsub("^\\s+|\\s+$", "", gsub(pattern = pattern, replacement = "", x = object[tmp]))
-  } else {out <- ""}
-  return(out)
-}
-
 get_task <- function(file) {
   ## extract information related to task
-  all_info <- extract_task(file = file)
+  all_task <- extract_task(file = file)
 
   ## get all tasks
-  all_task <- extract_todo(all_info)
+  list_task <- split_task(all_task)
 
   ## extract todo
-  todo <- sapply(all_task, extract_info, info = "TODO")
+  todo <- sapply(list_task, extract_info, info = "todo")
 
   ## extract task info
-  todo_info <- sapply(all_task, extract_info, info = "info")
+  todo_info <- sapply(list_task, extract_info, info = "info")
 
   ## extract tags
-  proj_tags <- extract_info(all_info, info = "proj_tags")
-  tmp <- paste(proj_tags, sapply(all_task, extract_info, info = "tags"), sep = "|")
+  proj_tags <- extract_info(all_task, info = "proj_tags")
+  tmp <- paste(proj_tags, sapply(list_task, extract_info, info = "tags"), sep = "|")
   todo_tags <- sapply(tmp, function(x) paste(unique(unlist(strsplit(tmp, split = "[|]"))), collapse = "|"))
 
   ## extract personnel
-  todo_person <- sapply(all_task, extract_info, info = "personnel")
+  todo_person <- sapply(list_task, extract_info, info = "personnel")
 
   ## extract cost
-  todo_cost <- sapply(all_task, extract_info, info = "cost")
+  todo_cost <- sapply(list_task, extract_info, info = "cost")
 
   ## extract deadline
-  todo_deadline <- sapply(all_task, extract_info, info = "deadline")
+  todo_deadline <- sapply(list_task, extract_info, info = "deadline")
 
   ## extract priority
-  todo_priority <- sapply(all_task, extract_info, info = "priority")
+  todo_priority <- sapply(list_task, extract_info, info = "priority")
 
   ## extract task start
-  todo_start <- sapply(all_task, extract_info, info = "start")
+  todo_start <- sapply(list_task, extract_info, info = "start")
 
   ## extract task end
-  todo_end <- sapply(all_task, extract_info, info = "end")
+  todo_end <- sapply(list_task, extract_info, info = "end")
 
   ## output
   return(data.frame(task = todo,

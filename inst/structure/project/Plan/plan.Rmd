@@ -4,8 +4,11 @@ author: "XYZ"
 date: "2017-02-02"
 output: html_document
 ---
-:proj_tags: work|home|family|relationship|OUCRU|statistics|psychology|consultancy|dengue|plan|analysis|writing|
-:proj_close: 2017-03-02
+```{todo project}
+proj_tags = work|home|family|relationship|OUCRU|statistics|psychology|consultancy|dengue|plan|analysis|writing
+proj_start = 
+proj_end = 2017-03-02
+```  
 
 The purpose of this document is to collect all information, notes, plan, tasks related to this project.
 
@@ -21,13 +24,16 @@ The purpose of this document is to collect all information, notes, plan, tasks r
 
 # Detailed information
 ## Lorem ipsum dolor sit amet, vidisse vivendo est in, nam ea wisi similique. Per ne alienum tractatos
-:TODO: Lorem ipsum dolor sit amet
-:info: Lorem ipsum dolor sit amet, vidisse vivendo est in
-:tags: data cleaning|IDA
-:personnel: LamPK|NhiLTQ
-:cost: 0 VND
-:deadline: 2017-02-15 12:30 
-:start: 2017-02-10 08:00
-:end: 2017-02-14 15:30
+```{todo Lorem ipsum dolor sit amet}
+info = Lorem ipsum dolor sit amet, vidisse vivendo est in
+tags = data cleaning|IDA
+personnel = LamPK|NhiLTQ
+cost = 0 VND
+deadline = 2017-02-15 12:30
+priority = high
+start = 2017-02-10 08:00
+end = 2017-02-14 15:30
+```  
+
 
 
