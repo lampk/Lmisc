@@ -8,9 +8,13 @@
 # misc ------------------------------------------------------
 
 #' @export
-get.dropbox.folder <- function(type = c("personal", "business"), source = "~/.dropbox/info.json") {
+get.dropbox.folder <- function(type = c("personal", "business"), file = "info.json") {
   require("rjson")
-  tmp <- fromJSON(file = source)
+  db_file <- ifelse(.Platform$OS.type == "windows",
+                    file.path(Sys.getenv("LOCALAPPDATA"), "Dropbox", file),
+                    file.path("~", ".dropbox", file))
+
+  tmp <- fromJSON(file = db_file)
   if (length(type) > 1) type <- "personal"
   out <- switch(type,
                 "personal" = tmp$personal$path,
