@@ -22,5 +22,6 @@ Imports:
     RColorBrewer,
     shiny,
     miniUI,
-    rstudioapi
+    rstudioapi,
+    rjson
 RoxygenNote: 6.0.0

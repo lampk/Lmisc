@@ -1,0 +1,5 @@
+Name: Create Project
+Description: To create project
+Binding: createProject_addin
+Interactive: true
+
