@@ -186,3 +186,13 @@ myVenn <- function(data, variables){
   if (is.na(func)){stop("Unable to draw Venn diagram for more than 5 variables !!!")}
   eval(parse(text = paste(func, "(", paste(paste(paste(names(n), n, sep = "="), collapse = ","), ",category = c(", paste(paste("'", variables, "'", sep = ""), collapse = ","), ")", sep = ""), ")", sep = "")))
 }
+
+
+# emulate ggplot2 colors --------------------------------------------------
+
+#' @export
+gg_color <- function(n) {
+  ## source from: https://stackoverflow.com/questions/8197559/emulate-ggplot2-default-color-palette
+  hues = seq(15, 375, length = n + 1)
+  hcl(h = hues, l = 65, c = 100)[1:n]
+}
