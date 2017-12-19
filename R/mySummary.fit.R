@@ -180,7 +180,7 @@ mySummary.uni <- function(fit, adjust = NULL, ...){
   new <- sapply(x, function(z) as.formula(paste(old[2], z, sep = "~")))
 
   # create list of fit
-  fits <- mapply(update, formula. = new, MoreArgs = list(object = fit), SIMPLIFY = FALSE)
+  fits <- lapply(new, function(x) update(fit, formula. = x))
 
   # get df for each variable
   ## get original data
