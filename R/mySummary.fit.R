@@ -200,9 +200,9 @@ mySummary.uni <- function(fit, adjust = NULL, ...){
     output <- mySummary.fit(fits[[1]], ...)[1:df[1],]
   } else {
     output <- do.call(rbind,
-                      mapply(function(fit, df, ...) {
-                        mySummary.fit(fit, ...)[1:df,]
-                      }, fit = fits, df = df, MoreArgs = list(...), SIMPLIFY = FALSE))
+                      lapply(1:length(new), function(i) {
+                        mySummary.fit(fits[[i]], ...)[1:df[i], ]
+                      }))
     colnames(output) <- colnames(mySummary.fit(fits[[1]], ...))
   }
 
