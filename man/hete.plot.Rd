@@ -19,4 +19,3 @@ graph
 \description{
 To produce heterogeneity plot
 }
-

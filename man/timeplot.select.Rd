@@ -28,4 +28,3 @@ data frame contains id, max x, y at max x, and labels
 \description{
 To systematically select id in a longitudinal dataset based on residuals from fitted smooth
 }
-
