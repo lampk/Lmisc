@@ -196,3 +196,36 @@ gg_color <- function(n) {
   hues = seq(15, 375, length = n + 1)
   hcl(h = hues, l = 65, c = 100)[1:n]
 }
+
+
+# gam (mgcv) fit ----------------------------------------------------------
+
+#' @export
+my.gam.plot <- function(gamfit, filename, width = 4000, height = 4000, res = 300, label = NULL, unit = NULL, rug = TRUE, se = TRUE, shade = TRUE, scale = -1, lwd = 1.5, ...) {
+  require(mgcv)
+  ## set up
+  n_smooth <- length(gamfit$smooth)
+  nrow <- floor(sqrt(n_smooth))
+  if (nrow * (nrow + 1) < n_smooth) {nrow <- nrow + 1}
+  if (nrow * (nrow + 1) > n_smooth) {ncol <- nrow} else {ncol <- nrow + 1}
+  if (is.null(label)) {
+    label <- sapply(1:n_smooth, function(i){gamfit$smooth[[i]]$vn})
+  }
+  label_y <- paste("s(", label, ")", sep = "")
+  if (!is.null(unit)) {
+    label_x <- paste(label, unit)
+  } else {
+    label_x <- label
+  }
+
+  ## plot
+  png(filename = filename, width = width, height = height, res = 300)
+  par(mfrow = c(nrow, ncol))
+  for (i in (1:n_smooth)) {
+    gamfit$smooth[[i]]$label <- label_y[i]
+    plot(gamfit, select = i, xlab = label_x[i], rug = rug, se = se, shade = shade, scale = scale, lwd = lwd, ...)
+    abline(h = 0, lty = 2)
+  }
+  par(mfrow = c(1, 1))
+  dev.off()
+}
