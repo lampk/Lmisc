@@ -229,3 +229,40 @@ my.gam.plot <- function(gamfit, filename, width = 4000, height = 4000, res = 300
   par(mfrow = c(1, 1))
   dev.off()
 }
+
+
+# get vcov and prediction or effect ---------------------------------------
+
+#' @export
+my.vcov <- function(fit){
+  if ("geeglm" %in% class(fit)) {
+    out <- fit$geese$vbeta
+  } else {
+    out <- vcov(fit)
+  }
+  return(out)
+}
+
+#' @export
+get.prediction <- function(fit, X, exp = FALSE, alpha = 0.05, sub = NULL) {
+  browser()
+  if (is.null(sub)) {
+    idx <- 1:ncol(X)
+  } else {
+    idx <- sub
+  }
+  Xnew <- X[, idx]
+  if (length(idx) == 1) {
+    dim(Xnew) <- c(nrow(X), 1)
+  }
+
+  pred <- (coef(fit)[idx] %*% t(Xnew))[1,]
+  pred_vcov <- my.vcov(fit)[idx, idx]
+  pred_se <- sqrt(diag(Xnew %*% pred_vcov %*% t(Xnew)))
+  out <- cbind(pred = pred,
+               lo = pred - qnorm(1 - alpha/2) * pred_se,
+               hi = pred + qnorm(1 - alpha/2) * pred_se)
+  if (exp) {out <- exp(out)}
+  return(out)
+}
+
