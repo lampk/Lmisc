@@ -245,7 +245,7 @@ my.vcov <- function(fit){
 
 #' @export
 get.prediction <- function(fit, X, exp = FALSE, alpha = 0.05, sub = NULL) {
-  browser()
+  #browser()
   if (is.null(sub)) {
     idx <- 1:ncol(X)
   } else {
