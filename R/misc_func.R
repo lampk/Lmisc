@@ -276,3 +276,11 @@ create.pw <- function(keynum, length = 12) {
   p0 <- c(sample(letters, m), sample(LETTERS, m), sample(punc, length - (2 * m)))
   return(paste(sample(p0, length(p0)), collapse = ""))
 }
+
+create.pwd <- function(keynum, length = 12) {
+  m <- round(length/4)
+  punc <- c("!", "#", "$", "%", "&", "(", ")", "*", "+" , "-", ".", "/", ":", ";", "<", "=", ">", "?", "@", "[", "]", "^", "_", "{", "|", "}", "~")
+  set.seed(keynum)
+  p0 <- c(sample(letters, m), sample(LETTERS, m), sample(0:9, m), sample(punc, length - (3 * m)))
+  return(paste(sample(p0, length(p0)), collapse = ""))
+}
