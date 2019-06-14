@@ -266,3 +266,13 @@ get.prediction <- function(fit, X, exp = FALSE, alpha = 0.05, sub = NULL) {
   return(out)
 }
 
+
+# password ----------------------------------------------------------------
+
+create.pw <- function(keynum, length = 12) {
+  m <- round(length/3)
+  punc <- c("!", "#", "$", "%", "&", "(", ")", "*", "+" , "-", ".", "/", ":", ";", "<", "=", ">", "?", "@", "[", "]", "^", "_", "{", "|", "}", "~")
+  set.seed(keynum)
+  p0 <- c(sample(letters, m), sample(LETTERS, m), sample(punc, length - (2 * m)))
+  return(paste(sample(p0, length(p0)), collapse = ""))
+}

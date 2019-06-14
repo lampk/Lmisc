@@ -5,8 +5,8 @@
 \alias{mySummary.uni}
 \title{To summarize fitted model}
 \usage{
-mySummary.fit(fit, meta = NULL, exp = FALSE, method = "LRT", digits = 2,
-  sep = "-", p = 0.001, tidy = TRUE)
+mySummary.fit(fit, meta = NULL, exp = FALSE, method = "LRT",
+  digits = 2, sep = "-", p = 0.001, tidy = TRUE)
 
 mySummary.uni(fit, adjust = NULL, ...)
 }
