@@ -288,6 +288,7 @@ create.pwd <- function(keynum, length = 12) {
 
 # file --------------------------------------------------------------------
 
+#' @export
 file.move <- function(from, to, remove = TRUE) {
   ## ref: https://stackoverflow.com/questions/10266963/moving-files-between-folders
   ## copy and rename file
